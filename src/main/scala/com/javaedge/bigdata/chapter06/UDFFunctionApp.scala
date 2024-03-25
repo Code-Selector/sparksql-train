@@ -25,7 +25,7 @@ object UDFFunctionApp {
     import spark.implicits._
 
     val infoRDD: RDD[String] = spark.sparkContext.textFile(
-      "/Users/javaedge/Downloads/sparksql-train/data/hobbies.txt")
+      "/Users/javaedge/Downloads/soft/sparksql-train/data/hobbies.txt")
     val infoDF: DataFrame = infoRDD.map(_.split("###")).map(x => {
       Hobbies(x(0), x(1))
     }).toDF

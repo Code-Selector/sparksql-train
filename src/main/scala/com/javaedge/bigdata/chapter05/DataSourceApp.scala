@@ -14,10 +14,11 @@ object DataSourceApp {
     // text(spark)
     // json(spark)
     // common(spark)
-    // parquet(spark)
+//     parquet(spark)
     // convert(spark)
 
-    // jdbc(spark)
+//     jdbc1(spark)
+//     jdbc2(spark)
     jdbcConfig(spark)
     spark.stop()
   }
@@ -41,34 +42,39 @@ object DataSourceApp {
 
     val jdbcDF: DataFrame = spark.read.jdbc(url, s"$database.$table", connectionProperties)
 
-    jdbcDF.filter($"order_id" > 158)
+    jdbcDF.filter($"id" > 158)
     .write.jdbc(url, s"$database.$sinkTable", connectionProperties)
   }
 
-  def jdbc(spark: SparkSession): Unit = {
+  def jdbc1(spark: SparkSession): Unit = {
+    import spark.implicits._
+
+    val jdbcDF = spark.read
+      .format("jdbc")
+      .option("url", "jdbc:mysql://localhost:3306")
+      .option("dbtable", "education.user")
+      .option("user", "root")
+      .option("password", "123456")
+      .load()
+
+    jdbcDF.filter($"id" > 300).show(100)
+  }
+
+  def jdbc2(spark: SparkSession): Unit = {
     import spark.implicits._
 
     val url = "jdbc:mysql://localhost:3306"
-    val srcTable = "smartrm_monolith.order"
-//    val jdbcDF = spark.read
-//      .format("jdbc")
-//      .option("url", url)
-//      .option("dbtable", srcTable)
-//      .option("user", "root")
-//      .option("password", "root")
-//      .load()
-    //    jdbcDF.filter($"order_id" > 150).show(100)
-
+    val srcTable = "education.user"
 
     val connProps = new Properties()
     connProps.put("user", "root")
-    connProps.put("password", "root")
+    connProps.put("password", "123456")
 
     val jdbcDF: DataFrame = spark.read.jdbc(url, srcTable, connProps)
 
-    // 若 目标表不存在，会自动帮你创建
-    jdbcDF.filter($"order_id" > 100)
-      .write.jdbc(url, "smartrm_monolith.order_bak", connProps)
+    // 若目标表不存在，会自动帮你创建
+    jdbcDF.filter($"id" > 300)
+      .write.jdbc(url, "education.user_bak", connProps)
   }
 
   // 存储类型转换：JSON==>Parquet
@@ -76,14 +82,14 @@ object DataSourceApp {
     import spark.implicits._
 
     val jsonDF: DataFrame = spark.read.format("json")
-      .load("/Users/javaedge/Downloads/sparksql-train/data/people.json")
+      .load("/Users/javaedge/Downloads/soft/sparksql-train/data/people.json")
     jsonDF.show()
 
     jsonDF.filter("age>20")
       .write.format("parquet").mode(SaveMode.Overwrite).save("out")
 
     spark.read.parquet(
-      "/Users/javaedge/Downloads/sparksql-train/out").show()
+      "/Users/javaedge/Downloads/soft/sparksql-train/out").show()
 
   }
 
@@ -91,8 +97,7 @@ object DataSourceApp {
   private def parquet(spark: SparkSession): Unit = {
     import spark.implicits._
 
-    val parquetDF: DataFrame = spark.read.parquet(
-      "/Users/javaedge/Downloads/sparksql-train/data/users.parquet")
+    val parquetDF: DataFrame = spark.read.parquet("/Users/javaedge/Downloads/soft/sparksql-train/data/users.parquet")
     parquetDF.printSchema()
     parquetDF.show()
 
@@ -101,7 +106,7 @@ object DataSourceApp {
       .option("compression", "none")
       .parquet("out")
 
-    //    spark.read.parquet("/Users/javaedge/Downloads/sparksql-train/out").show()
+    //    spark.read.parquet("/Users/javaedge/Downloads/soft/sparksql-train/out").show()
   }
 
   // 标准API写法
@@ -109,9 +114,9 @@ object DataSourceApp {
     import spark.implicits._
 
     val textDF: DataFrame = spark.read.format("text").load(
-      "/Users/javaedge/Downloads/sparksql-train/data/people.txt")
+      "/Users/javaedge/Downloads/soft/sparksql-train/data/people.txt")
     val jsonDF: DataFrame = spark.read.format("json").load(
-      "/Users/javaedge/Downloads/sparksql-train/data/people.json")
+      "/Users/javaedge/Downloads/soft/sparksql-train/data/people.json")
     textDF.show()
     println("~~~~~~~~")
     jsonDF.show()
@@ -125,7 +130,7 @@ object DataSourceApp {
     import spark.implicits._
 
     val jsonDF: DataFrame = spark.read.json(
-      "/Users/javaedge/Downloads/sparksql-train/data/people.json")
+      "/Users/javaedge/Downloads/soft/sparksql-train/data/people.json")
     //    jsonDF.show()
 
     // 简单 JSON：只要age>20的数据
@@ -135,7 +140,7 @@ object DataSourceApp {
 
     // 嵌套 JSON
     val jsonDF2: DataFrame = spark.read.json(
-      "/Users/javaedge/Downloads/sparksql-train/data/people2.json")
+      "/Users/javaedge/Downloads/soft/sparksql-train/data/people2.json")
     jsonDF2.show()
 
     jsonDF2.select($"name",
@@ -151,7 +156,7 @@ object DataSourceApp {
     import spark.implicits._
 
     val textDF: DataFrame = spark.read.text(
-      "/Users/javaedge/Downloads/sparksql-train/data/people.txt")
+      "/Users/javaedge/Downloads/soft/sparksql-train/data/people.txt")
 
     val result: Dataset[String] = textDF.map(x => {
       val splits: Array[String] = x.getString(0).split(",")

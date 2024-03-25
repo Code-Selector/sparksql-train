@@ -51,7 +51,7 @@ object SparkWordCountApp {
       .map(x => (x._2, x._1))
       .collect().foreach(println)
     // 5）把结果输出到文件中
-    //      .saveAsTextFile("/Users/javaedge/Downloads/sparksql-train/data/output.txt")
+    //      .saveAsTextFile("/Users/javaedge/Downloads/soft/sparksql-train/data/output.txt")
     sc.stop()
   }
 }

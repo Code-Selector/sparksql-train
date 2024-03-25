@@ -15,15 +15,20 @@ object DataFrameAPIApp2 {
     zips.printSchema()
 
     /**
-     * loc的信息没用展示全，超过一定长度就使用...来展示
+     * loc的信息没展示全，超过一定长度就使用...来展示
      * 默认只显示前20条：
      * show() ==> show(20) ==> show(numRows, truncate = true)
      */
     zips.show(5)
     zips.show(5, truncate = false)
 
-    zips.head(3).foreach(println)
+    // 先从数据集 zips 中获取前三行数据（或者说前三个元素）
+    zips.head(3)
+      // 使用 foreach(println) 将这三行数据打印输出到控制台
+      .foreach(println)
+    // 获取数据集 zips 中的第一个元素（或者说第一行数据）
     zips.first()
+    // 获取数据集 zips 中的前五个元素（或者说前五行数据）
     zips.take(5)
 
     val count: Long = zips.count()

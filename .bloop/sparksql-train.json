@@ -2,16 +2,16 @@
     "version": "1.4.0",
     "project": {
         "name": "sparksql-train",
-        "directory": "/Users/javaedge/Downloads/sparksql-train",
-        "workspaceDir": "/Users/javaedge/Downloads/sparksql-train",
+        "directory": "/Users/javaedge/Downloads/soft/sparksql-train",
+        "workspaceDir": "/Users/javaedge/Downloads/soft/sparksql-train",
         "sources": [
-            "/Users/javaedge/Downloads/sparksql-train/src/main/scala"
+            "/Users/javaedge/Downloads/soft/sparksql-train/src/main/scala"
         ],
         "dependencies": [
             
         ],
         "classpath": [
-            "/Users/javaedge/Downloads/sparksql-train/target/classes",
+            "/Users/javaedge/Downloads/soft/sparksql-train/target/classes",
             "/Users/javaedge/.m2/repository/org/scala-lang/scala-library/2.11.8/scala-library-2.11.8.jar",
             "/Users/javaedge/.m2/repository/org/apache/spark/spark-sql_2.11/2.4.3/spark-sql_2.11-2.4.3.jar",
             "/Users/javaedge/.m2/repository/com/univocity/univocity-parsers/2.7.3/univocity-parsers-2.7.3.jar",
@@ -232,10 +232,10 @@
             "/Users/javaedge/.m2/repository/org/apache/kudu/kudu-spark2_2.11/1.7.0/kudu-spark2_2.11-1.7.0.jar",
             "/Users/javaedge/.m2/repository/org/scala-lang/scala-library/2.11.8/scala-library-2.11.8.jar"
         ],
-        "out": "/Users/javaedge/Downloads/sparksql-train/target",
-        "classesDir": "/Users/javaedge/Downloads/sparksql-train/target/classes",
+        "out": "/Users/javaedge/Downloads/soft/sparksql-train/target",
+        "classesDir": "/Users/javaedge/Downloads/soft/sparksql-train/target/classes",
         "resources": [
-            "/Users/javaedge/Downloads/sparksql-train/src/main/resources"
+            "/Users/javaedge/Downloads/soft/sparksql-train/src/main/resources"
         ],
         "scala": {
             "organization": "org.scala-lang",
